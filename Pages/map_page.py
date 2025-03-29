@@ -1,4 +1,5 @@
 import re
+import time
 
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -36,14 +37,19 @@ class MapPage(BasePage):
         return heading_text.strip()  # Return the text without the number
 
     def get_venue_count(self):
-        """Returns the number of visible venues on the map."""
+        """Returns the number of visible venues on the map.   """
+        time.sleep(3)
         venue_count_element = self.driver.find_element(*self.VENUE_COUNT)
         venue_text = venue_count_element.text
-        match = re.search(r'\d+', venue_text)
+        match = int(re.search(r'\d+', venue_text).group())
+        #count1 = self.get_text(self.SHOW_VENUES_BUTTON)
+        #venue_count = int(re.search(r'\d+', count1).group())
+        return match
         if match:
          # Return the integer value of the number
            return int(match.group())
         return None
+
 
     def select_first_venue(self):
         """Click the first venue marker."""
